@@ -404,16 +404,10 @@ function setupScrollReveal() {
     handleScroll(); // Check on load
 }
 
-// Parallax Effect
+// Parallax Effect - Disabled to prevent overlapping
 function setupParallax() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallax = scrolled * 0.5;
-        hero.style.transform = `translateY(${parallax}px)`;
-    });
+    // Disabled parallax to prevent text overlapping issues
+    return;
 }
 
 // Add Modern Effects
@@ -424,17 +418,8 @@ function addModernEffects() {
         btn.style.animation = `fadeInUp 1s ease-out ${0.5 + index * 0.2}s both`;
     });
     
-    // Add icons to service cards if they don't have them
-    const serviceCards = document.querySelectorAll('.service-card');
-    const icons = ['🎓', '🌍', '💼', '📚', '🏥', '✈️'];
-    serviceCards.forEach((card, index) => {
-        if (!card.querySelector('.icon')) {
-            const icon = document.createElement('div');
-            icon.className = 'icon';
-            icon.textContent = icons[index] || '⭐';
-            card.insertBefore(icon, card.firstChild);
-        }
-    });
+    // Remove icon addition - icons are already in HTML
+    // This prevents duplicate icons from appearing
     
     // Add stats section if it doesn't exist
     if (!document.querySelector('.stats')) {

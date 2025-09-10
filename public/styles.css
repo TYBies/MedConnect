@@ -5,14 +5,15 @@
 }
 
 :root {
-    --primary-blue: #0066cc;
-    --light-blue: #e6f2ff;
-    --dark-blue: #004499;
+    --primary-blue: #1e3a5f;  /* Professional Navy */
+    --light-blue: #e0f2fe;
+    --dark-blue: #0c1e33;
+    --accent-teal: #0891b2;
     --white: #ffffff;
-    --gray: #666666;
-    --light-gray: #f5f5f5;
-    --success-green: #28a745;
-    --error-red: #dc3545;
+    --gray: #64748b;
+    --light-gray: #f8fafc;
+    --success-green: #059669;
+    --error-red: #dc2626;
 }
 
 body {

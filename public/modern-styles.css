@@ -1,14 +1,24 @@
 /* Modern UI Enhancements */
 
-/* CSS Variables for Modern Design */
+/* Professional Color Theme */
 :root {
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-blue: linear-gradient(135deg, #0066cc 0%, #4A90E2 100%);
-    --gradient-green: linear-gradient(135deg, #00A650 0%, #52c234 100%);
-    --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    /* Primary Professional Colors */
+    --primary-navy: #1e3a5f;
+    --primary-teal: #0891b2;
+    --accent-gold: #f59e0b;
+    --neutral-gray: #64748b;
+    --light-bg: #f8fafc;
+    
+    /* Gradients - Professional and Subtle */
+    --gradient-primary: linear-gradient(135deg, #1e3a5f 0%, #0891b2 100%);
+    --gradient-blue: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    --gradient-green: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    --gradient-hero: linear-gradient(135deg, #1e3a5f 0%, #0891b2 50%, #0e7490 100%);
+    
+    /* Glass Effects */
     --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(255, 255, 255, 0.18);
-    --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.4);
+    --shadow-glow: 0 0 30px rgba(30, 58, 95, 0.2);
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -89,11 +99,13 @@ nav a:hover {
 
 /* Modern Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
-                url('data:image/svg+xml,<svg width="60" height="60" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse"><path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    background: var(--gradient-primary);
     position: relative;
     overflow: hidden;
     animation: fadeIn 1s ease-out;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
 }
 
 .hero::before {
@@ -117,21 +129,26 @@ nav a:hover {
     to { opacity: 1; }
 }
 
-/* Floating Animation for Hero Content */
+/* Hero Content - Ensure proper layering */
 .hero-content {
     animation: fadeInUp 1s ease-out;
     position: relative;
-    z-index: 2;
+    z-index: 10;
+    padding: 40px 0;
+    width: 100%;
 }
 
 .hero h1 {
     font-size: 3.5rem;
-    background: linear-gradient(90deg, #ffffff 0%, #f0f0f0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    color: #ffffff !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
     animation: fadeInUp 1s ease-out 0.2s both;
+}
+
+.hero p {
+    color: #ffffff !important;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
 }
 
 @keyframes fadeInUp {
@@ -178,11 +195,18 @@ nav a:hover {
 }
 
 .btn-primary {
-    background: var(--gradient-blue) !important;
+    background: linear-gradient(135deg, #1e3a5f 0%, #0891b2 100%) !important;
+    border: none !important;
 }
 
 .btn-secondary {
-    background: var(--gradient-green) !important;
+    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%) !important;
+    border: none !important;
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    border: none !important;
 }
 
 /* Modern Cards with Glassmorphism */
@@ -202,39 +226,34 @@ nav a:hover {
     box-shadow: var(--shadow-glow);
 }
 
-/* Animated Service Icons */
+/* Service Icons - Professional Theme */
 .service-card .icon {
     width: 80px;
     height: 80px;
     margin: 0 auto 20px;
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, #1e3a5f 0%, #0891b2 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
     color: white;
-    animation: pulse 2s infinite;
+    box-shadow: 0 4px 15px rgba(30, 58, 95, 0.2);
+    transition: transform 0.3s ease;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 20px rgba(102, 126, 234, 0);
-    }
+.service-card:hover .icon {
+    transform: scale(1.1);
 }
 
 /* Stats Section with Counter Animation */
 .stats {
-    background: var(--gradient-primary);
+    background: linear-gradient(135deg, #1e3a5f 0%, #0891b2 100%);
     padding: 80px 0;
     color: white;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
 .stats::before {
