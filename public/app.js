@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMobileMenu();
     setupFAQ();
     setupSmoothScrolling();
+    setupScrollReveal();
+    setupParallax();
+    addModernEffects();
 });
 
 // Initialize DOM elements
@@ -375,6 +378,136 @@ document.addEventListener('input', (e) => {
         }
     }
 });
+
+// Scroll Reveal Animation
+function setupScrollReveal() {
+    const reveals = document.querySelectorAll('.service-card, .requirement-card, .faq-item, section h2, .stat-item');
+    
+    reveals.forEach((element, index) => {
+        element.classList.add('reveal');
+        element.style.transitionDelay = `${index * 0.1}s`;
+    });
+    
+    function handleScroll() {
+        reveals.forEach(element => {
+            const windowHeight = window.innerHeight;
+            const elementTop = element.getBoundingClientRect().top;
+            const elementVisible = 150;
+            
+            if (elementTop < windowHeight - elementVisible) {
+                element.classList.add('active');
+            }
+        });
+    }
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on load
+}
+
+// Parallax Effect
+function setupParallax() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallax = scrolled * 0.5;
+        hero.style.transform = `translateY(${parallax}px)`;
+    });
+}
+
+// Add Modern Effects
+function addModernEffects() {
+    // Add floating animation to hero buttons
+    const heroButtons = document.querySelectorAll('.hero .btn');
+    heroButtons.forEach((btn, index) => {
+        btn.style.animation = `fadeInUp 1s ease-out ${0.5 + index * 0.2}s both`;
+    });
+    
+    // Add icons to service cards if they don't have them
+    const serviceCards = document.querySelectorAll('.service-card');
+    const icons = ['🎓', '🌍', '💼', '📚', '🏥', '✈️'];
+    serviceCards.forEach((card, index) => {
+        if (!card.querySelector('.icon')) {
+            const icon = document.createElement('div');
+            icon.className = 'icon';
+            icon.textContent = icons[index] || '⭐';
+            card.insertBefore(icon, card.firstChild);
+        }
+    });
+    
+    // Add stats section if it doesn't exist
+    if (!document.querySelector('.stats')) {
+        const statsSection = createStatsSection();
+        const aboutSection = document.getElementById('about');
+        if (aboutSection) {
+            aboutSection.parentNode.insertBefore(statsSection, aboutSection.nextSibling);
+        }
+    }
+    
+    // Animate numbers in stats
+    animateCounters();
+}
+
+// Create Stats Section
+function createStatsSection() {
+    const stats = document.createElement('section');
+    stats.className = 'stats';
+    stats.innerHTML = `
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="500">0</div>
+                    <div class="stat-label">Nurses Placed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="50">0</div>
+                    <div class="stat-label">Partner Hospitals</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="95">0</div>
+                    <div class="stat-label">Success Rate %</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="12">0</div>
+                    <div class="stat-label">Months Average</div>
+                </div>
+            </div>
+        </div>
+    `;
+    return stats;
+}
+
+// Animate Counter Numbers
+function animateCounters() {
+    const counters = document.querySelectorAll('.stat-number[data-target]');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const increment = target / 100;
+                
+                const updateCount = () => {
+                    if (count < target) {
+                        count += increment;
+                        counter.textContent = Math.ceil(count);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                updateCount();
+                observer.unobserve(counter);
+            }
+        });
+    });
+    
+    counters.forEach(counter => observer.observe(counter));
+}
 
 // Export functions for testing
 export {
