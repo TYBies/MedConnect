@@ -1,6 +1,28 @@
 // Import Supabase functions
 import { database } from '../src/supabase.js';
 
+// Import translation system with error handling
+let translationSystem = null;
+let languageSwitcher = null;
+let translationHelper = null;
+
+async function loadTranslationSystem() {
+    try {
+        translationSystem = await import('./translations.js');
+        const langModule = await import('./language-switcher.js');
+        languageSwitcher = langModule.createLanguageSwitcher;
+        
+        // Load translation helper for complex elements
+        translationHelper = await import('./translation-helper.js');
+        
+        console.log('Translation system loaded successfully');
+        return true;
+    } catch (error) {
+        console.warn('Translation system not loaded:', error.message);
+        return false;
+    }
+}
+
 // DOM Elements
 let contactForm;
 let applyModal;
@@ -9,7 +31,7 @@ let mobileMenu;
 let navLinks;
 
 // Initialize app when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initializeElements();
     setupEventListeners();
     setupMobileMenu();
@@ -18,6 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupScrollReveal();
     setupParallax();
     addModernEffects();
+    
+    // Initialize translation system
+    const translationLoaded = await loadTranslationSystem();
+    if (translationLoaded) {
+        initializeLanguageSwitcher();
+    }
 });
 
 // Initialize DOM elements
@@ -492,6 +520,26 @@ function animateCounters() {
     });
     
     counters.forEach(counter => observer.observe(counter));
+}
+
+
+// Initialize language switcher
+function initializeLanguageSwitcher() {
+    if (!languageSwitcher) return;
+    
+    // Add language switcher to navigation
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        const lastNavItem = navLinks.querySelector('li:last-child');
+        const switcherContainer = languageSwitcher();
+        
+        // Insert before the last nav item (Join Waitlist button)
+        if (lastNavItem) {
+            navLinks.insertBefore(switcherContainer, lastNavItem);
+        } else {
+            navLinks.appendChild(switcherContainer);
+        }
+    }
 }
 
 // Export functions for testing
