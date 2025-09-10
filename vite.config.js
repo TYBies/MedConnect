@@ -4,7 +4,7 @@ import { resolve } from 'path';
 export default defineConfig({
   root: 'public',
   publicDir: false,
-  // base: '/', // Vercel uses root path
+  base: process.env.GITHUB_PAGES ? '/MedConnect/' : '/', // Auto-detect platform
   build: {
     outDir: '../dist',
     emptyOutDir: true,
