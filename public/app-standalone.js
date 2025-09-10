@@ -54,15 +54,19 @@
         }
     }
 
-    // Handle contact form submission
+    // Handle waitlist form submission (formerly contact form)
     async function handleContactSubmit(e) {
         e.preventDefault();
         
         const formData = new FormData(e.target);
         const data = {
-            name: formData.get('name'),
+            full_name: formData.get('full_name'),
             email: formData.get('email'),
-            message: formData.get('message')
+            phone: formData.get('phone'),
+            country: formData.get('country'),
+            nursing_qualification: formData.get('qualification'),
+            years_experience: parseInt(formData.get('experience')) || 0,
+            german_level: formData.get('german_level')
         };
 
         // Show loading state
@@ -70,16 +74,35 @@
         const originalText = submitBtn.textContent;
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
+        submitBtn.textContent = 'Joining waitlist...';
 
         try {
-            const success = await submitToSupabase('contact_submissions', data);
+            // Submit to nurse_applications table for waitlist
+            const success = await submitToSupabase('nurse_applications', data);
             
             if (success) {
-                showNotification('Thank you for contacting us! We will get back to you soon.', 'success');
+                showNotification('🎉 You\'re on the waitlist! We\'ll contact you soon with next steps.', 'success');
                 e.target.reset();
+                
+                // Show success message in the form area
+                const formContainer = e.target.parentElement;
+                const successMessage = document.createElement('div');
+                successMessage.className = 'waitlist-success';
+                successMessage.innerHTML = `
+                    <h3 style="color: var(--primary-blue); margin-bottom: 1rem;">You're on the list!</h3>
+                    <p>Thank you for joining our waitlist. We'll be in touch within 48 hours with more information about your journey to Germany.</p>
+                    <p style="margin-top: 1rem;">Check your email for a confirmation message.</p>
+                `;
+                formContainer.appendChild(successMessage);
+                e.target.style.display = 'none';
+                
+                // Reset form after 10 seconds
+                setTimeout(() => {
+                    e.target.style.display = 'block';
+                    successMessage.remove();
+                }, 10000);
             } else {
-                showNotification('There was an error submitting your message. Please try again.', 'error');
+                showNotification('There was an error joining the waitlist. Please try again.', 'error');
             }
         } catch (error) {
             console.error('Error:', error);

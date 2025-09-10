@@ -24,7 +24,7 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#requirements">Requirements</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact" style="background: var(--primary-blue); color: white; border-radius: 5px;">Join Waitlist</a></li>
             </ul>
             <div class="mobile-menu">
                 <span></span>
@@ -241,57 +241,77 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Waitlist Section -->
     <section class="contact" id="contact">
         <div class="container">
-            <h2 class="section-title">Connect With Us</h2>
-            <p class="section-subtitle">Begin your professional healthcare career transformation</p>
+            <h2 class="section-title">Join Our Priority Waitlist</h2>
+            <p class="section-subtitle">Be among the first healthcare professionals to access our Germany placement program</p>
             <div class="contact-content">
                 <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <div class="contact-item">
-                        <span class="contact-icon">📧</span>
-                        <div>
-                            <strong>Email</strong><br>
-                            info@healthcarecareersbridge.com
-                        </div>
+                    <h3>Why Join Our Waitlist?</h3>
+                    <div style="margin-bottom: 2rem;">
+                        <p style="margin-bottom: 1rem;">We're launching our comprehensive placement program for qualified African nurses seeking careers in Germany. Joining our waitlist ensures:</p>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 0.8rem;">✓ Priority access to placement opportunities</li>
+                            <li style="margin-bottom: 0.8rem;">✓ Early notification of program launch</li>
+                            <li style="margin-bottom: 0.8rem;">✓ Exclusive preparation resources</li>
+                            <li style="margin-bottom: 0.8rem;">✓ Direct matching with German healthcare institutions</li>
+                            <li style="margin-bottom: 0.8rem;">✓ Personalized guidance throughout the process</li>
+                        </ul>
                     </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">📱</span>
-                        <div>
-                            <strong>WhatsApp</strong><br>
-                            +234 XXX XXX XXXX
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">📞</span>
-                        <div>
-                            <strong>Phone</strong><br>
-                            +234 XXX XXX XXXX
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <span class="contact-icon">🏢</span>
-                        <div>
-                            <strong>Offices</strong><br>
-                            Nigeria & Germany (Coming Soon)
-                        </div>
+                    <div style="background: var(--primary-blue); color: white; padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
+                        <h4 style="margin-bottom: 0.5rem;">Limited Spots Available</h4>
+                        <p style="margin: 0; opacity: 0.95;">Our first cohort will be limited to ensure quality support for each candidate.</p>
                     </div>
                 </div>
                 <form id="contact-form" class="contact-form">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary-blue);">Secure Your Spot</h3>
                     <div class="form-group">
-                        <label for="name">Name *</label>
-                        <input type="text" id="name" name="name" required>
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email *</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
                     </div>
                     <div class="form-group">
-                        <label for="message">Message *</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+234 XXX XXX XXXX" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="background: var(--primary-blue); color: white;">Send Message</button>
+                    <div class="form-group">
+                        <label for="country">Country of Residence *</label>
+                        <input type="text" id="country" name="country" placeholder="e.g., Nigeria, Ghana, Kenya" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="qualification">Nursing Qualification *</label>
+                        <input type="text" id="qualification" name="qualification" placeholder="e.g., BSc Nursing, RN, Diploma in Nursing" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="experience">Years of Experience *</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Select your experience</option>
+                            <option value="0-1">Less than 1 year</option>
+                            <option value="1-2">1-2 years</option>
+                            <option value="3-5">3-5 years</option>
+                            <option value="5+">More than 5 years</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="german_level">Current German Level *</label>
+                        <select id="german_level" name="german_level" required>
+                            <option value="">Select your level</option>
+                            <option value="None">No German knowledge</option>
+                            <option value="A1">A1 - Beginner</option>
+                            <option value="A2">A2 - Elementary</option>
+                            <option value="B1">B1 - Intermediate</option>
+                            <option value="B2">B2 - Upper Intermediate</option>
+                            <option value="C1">C1 - Advanced</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="background: var(--primary-blue); color: white; width: 100%; padding: 15px; font-size: 1.1rem;">Join Waitlist Now</button>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--gray); font-size: 0.9rem;">
+                        By joining, you agree to receive updates about our program launch and opportunities.
+                    </p>
                 </form>
             </div>
         </div>
