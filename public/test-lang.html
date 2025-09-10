@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Language System</title>
+    <style>
+        :root {
+            --primary-blue: #1e3a5f;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        h1, h2 {
+            color: var(--primary-blue);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Translation System Test Page</h1>
+    
+    <div class="test-section">
+        <h2>Language Switcher</h2>
+        <div id="lang-switcher-container"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Translations</h2>
+        <p>Navigation Home: <span data-i18n="nav.home">Home</span></p>
+        <p>About Title: <span data-i18n="about.title">About Us</span></p>
+        <p>Waitlist Submit: <span data-i18n="waitlist.submit">Join Waitlist Now</span></p>
+        <p>Form Email: <span data-i18n="form.email">Email Address *</span></p>
+    </div>
+    
+    <div class="test-section">
+        <h2>System Status</h2>
+        <div id="status"></div>
+    </div>
+
+    <script type="module">
+        const statusDiv = document.getElementById('status');
+        
+        try {
+            // Import translation system
+            const { translate, setLanguage, currentLanguage, updatePageTranslations } = await import('./translations.js');
+            statusDiv.innerHTML += '<div class="status success">✓ Translation system loaded</div>';
+            
+            // Import language switcher
+            const { createLanguageSwitcher } = await import('./language-switcher.js');
+            statusDiv.innerHTML += '<div class="status success">✓ Language switcher loaded</div>';
+            
+            // Add language switcher to page
+            const switcherContainer = document.getElementById('lang-switcher-container');
+            const switcher = createLanguageSwitcher();
+            switcherContainer.appendChild(switcher);
+            statusDiv.innerHTML += '<div class="status success">✓ Language switcher added to page</div>';
+            
+            // Test language switching
+            statusDiv.innerHTML += `<div class="status success">Current language: ${currentLanguage}</div>`;
+            
+            // Listen for language changes
+            window.addEventListener('languageChanged', (e) => {
+                statusDiv.innerHTML += `<div class="status success">Language changed to: ${e.detail}</div>`;
+            });
+            
+        } catch (error) {
+            statusDiv.innerHTML += `<div class="status error">✗ Error: ${error.message}</div>`;
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

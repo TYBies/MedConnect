@@ -334,6 +334,24 @@ function setupMobileMenu() {
                 navLinks.classList.remove('active');
             });
         });
+        
+        // Close menu when clicking any button inside nav (including language switcher)
+        navLinks.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Small delay to allow the action to complete
+                setTimeout(() => {
+                    navLinks.classList.remove('active');
+                }, 300);
+            });
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            // Check if click is outside nav and mobile menu button
+            if (!navLinks.contains(e.target) && !mobileMenu.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
     }
 }
 
@@ -539,7 +557,29 @@ function initializeLanguageSwitcher() {
         } else {
             navLinks.appendChild(switcherContainer);
         }
+        
+        // Re-setup mobile menu handlers to include the new language switcher button
+        setupMobileMenuHandlers();
     }
+}
+
+// Separate function to set up mobile menu handlers
+function setupMobileMenuHandlers() {
+    if (!navLinks) return;
+    
+    // Close menu when clicking any button inside nav (including newly added language switcher)
+    navLinks.querySelectorAll('button').forEach(button => {
+        // Remove existing listeners first to avoid duplicates
+        button.removeEventListener('click', closeMobileMenuWithDelay);
+        button.addEventListener('click', closeMobileMenuWithDelay);
+    });
+}
+
+// Helper function to close mobile menu with delay
+function closeMobileMenuWithDelay() {
+    setTimeout(() => {
+        if (navLinks) navLinks.classList.remove('active');
+    }, 300);
 }
 
 // Export functions for testing
