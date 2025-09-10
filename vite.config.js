@@ -4,7 +4,7 @@ import { resolve } from 'path';
 export default defineConfig({
   root: 'public',
   publicDir: false,
-  base: '/MedConnect/', // GitHub repo name
+  // base: '/', // Vercel uses root path
   build: {
     outDir: '../dist',
     emptyOutDir: true,
