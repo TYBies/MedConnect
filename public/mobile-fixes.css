@@ -1,0 +1,436 @@
+/* Mobile-specific fixes for better layout and German text */
+
+/* Ensure proper text wrapping and sizing on mobile */
+@media (max-width: 768px) {
+    /* Fix navigation alignment */
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+    
+    .nav-brand {
+        flex: 1;
+        max-width: 70%;
+    }
+    
+    .logo-title {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Fix nav links dropdown */
+    .nav-links {
+        top: 100%;
+        z-index: 1500;
+        width: 100%;
+        max-height: 70vh;
+        overflow-y: auto;
+    }
+    
+    .nav-links li {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .nav-links a {
+        display: block;
+        padding: 0.75rem 1rem;
+        width: 100%;
+        font-size: 1rem;
+    }
+    
+    /* Language switcher in mobile menu */
+    .language-switcher-container {
+        width: 100%;
+        padding: 0.75rem 1rem;
+    }
+    
+    .lang-dropdown-btn {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .lang-dropdown {
+        position: fixed !important;
+        left: 50% !important;
+        transform: translateX(-50%);
+        width: 90% !important;
+        max-width: 250px;
+        top: auto !important;
+        bottom: auto !important;
+        margin-top: 10px;
+    }
+    
+    /* Fix modal positioning */
+    .modal-content {
+        margin: 20px;
+        padding: 1.5rem;
+        max-height: 85vh;
+    }
+    
+    .modal-header {
+        padding-bottom: 0.75rem;
+        margin-bottom: 1rem;
+    }
+    
+    .modal-title {
+        font-size: 1.3rem;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    .close-modal {
+        min-width: 30px;
+        min-height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Fix text in sections */
+    h1, h2, h3 {
+        word-wrap: break-word;
+        hyphens: auto;
+        line-height: 1.3;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+    }
+    
+    p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    /* Fix hero section */
+    .hero h1 {
+        font-size: 1.6rem;
+        padding: 0 10px;
+    }
+    
+    .hero p {
+        font-size: 0.9rem;
+        padding: 0 10px;
+    }
+    
+    /* Fix FAQ section */
+    .faq-question {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+    
+    .faq-answer {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Fix service cards */
+    .service-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .service-card p {
+        font-size: 0.9rem;
+    }
+    
+    /* Fix requirement cards */
+    .requirement-card {
+        padding: 1.5rem;
+    }
+    
+    .requirements-list li {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+    }
+    
+    /* Fix contact section */
+    .contact-grid {
+        gap: 1.5rem;
+    }
+    
+    .contact-card h3 {
+        font-size: 1.1rem;
+    }
+    
+    .contact-card p {
+        font-size: 0.9rem;
+        word-break: break-word;
+    }
+    
+    /* Fix footer */
+    .footer-content {
+        gap: 2rem;
+    }
+    
+    .footer-section h4 {
+        font-size: 1.1rem;
+    }
+    
+    .footer-section a,
+    .footer-section p {
+        font-size: 0.9rem;
+    }
+    
+    /* Ensure forms are properly sized */
+    input, textarea, select {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Fix button sizing */
+    .btn {
+        font-size: 0.95rem;
+        padding: 0.75rem 1.5rem;
+    }
+    
+    /* Prevent horizontal scroll */
+    body {
+        overflow-x: hidden;
+    }
+    
+    .container {
+        padding: 0 15px;
+    }
+    
+    /* Fix process steps */
+    .process-step h3 {
+        font-size: 1.1rem;
+    }
+    
+    .process-step p {
+        font-size: 0.9rem;
+    }
+    
+    /* Employer CTA section */
+    .employer-cta {
+        padding: 2rem 1rem;
+    }
+    
+    .employer-cta h2 {
+        font-size: 1.4rem;
+    }
+    
+    .employer-cta p {
+        font-size: 0.95rem;
+    }
+}
+
+/* Desktop navigation fixes for longer text */
+@media (min-width: 769px) {
+    /* Adjust nav spacing for longer German/French text */
+    html[lang="de"] .nav-links,
+    html[lang="fr"] .nav-links {
+        gap: 0.3rem;
+    }
+    
+    html[lang="de"] .nav-links a,
+    html[lang="fr"] .nav-links a {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.6rem;
+        white-space: nowrap;
+    }
+    
+    /* Make the navigation container wider for German */
+    html[lang="de"] .navbar .nav-container,
+    html[lang="fr"] .navbar .nav-container {
+        max-width: 1400px;
+    }
+    
+    /* Reduce logo space when German is selected */
+    html[lang="de"] .nav-brand .logo-title,
+    html[lang="fr"] .nav-brand .logo-title {
+        display: none;
+    }
+    
+    @media (min-width: 1200px) {
+        html[lang="de"] .nav-brand .logo-title,
+        html[lang="fr"] .nav-brand .logo-title {
+            display: inline;
+            font-size: 0.9rem;
+        }
+        
+        html[lang="de"] .nav-links a,
+        html[lang="fr"] .nav-links a {
+            font-size: 0.9rem;
+            padding: 0.5rem 0.8rem;
+        }
+    }
+}
+
+/* Language-specific adjustments for German */
+html[lang="de"] {
+    /* German text tends to be longer */
+    word-break: break-word;
+    hyphens: auto;
+}
+
+html[lang="de"] .nav-links a {
+    font-size: 0.9rem;
+}
+
+html[lang="de"] h1,
+html[lang="de"] h2,
+html[lang="de"] h3 {
+    hyphens: auto;
+}
+
+/* French-specific adjustments */
+html[lang="fr"] {
+    word-break: break-word;
+    hyphens: auto;
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+    .logo-title {
+        display: none; /* Hide title on very small screens */
+    }
+    
+    .nav-brand img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    .modal-content {
+        width: 100%;
+        margin: 10px;
+        padding: 1rem;
+    }
+}
+
+/* Fix for the specific modal/overlay issue seen in screenshot */
+.modal.active {
+    padding: 20px;
+}
+
+.modal-content {
+    position: relative;
+    max-width: calc(100% - 40px);
+}
+
+/* Ensure close button is always visible */
+.close-modal {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 10;
+    background: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Fix z-index stacking */
+.navbar {
+    z-index: 1000;
+}
+
+.nav-links {
+    z-index: 1001;
+}
+
+.language-switcher-container .lang-dropdown {
+    z-index: 1002;
+}
+
+.modal {
+    z-index: 2000;
+}
+
+.modal-content {
+    z-index: 2001;
+}
+
+/* Fix logo alignment issues - with higher specificity */
+header nav .logo {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+header nav .logo-icon {
+    flex-shrink: 0;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px;
+    min-height: 40px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+header nav .logo-text {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    line-height: 1.2 !important;
+    min-width: 0; /* Allow text to shrink */
+    gap: 2px;
+}
+
+header nav .logo-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2 !important;
+}
+
+header nav .logo-subtitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2 !important;
+}
+
+/* Responsive logo adjustments */
+@media (max-width: 1200px) {
+    .logo-title {
+        font-size: 1rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .logo-text {
+        max-width: 180px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo-subtitle {
+        display: none; /* Hide subtitle on mobile */
+    }
+    
+    .logo-title {
+        font-size: 0.95rem;
+    }
+}
