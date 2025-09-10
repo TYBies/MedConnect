@@ -176,6 +176,7 @@ let translations = {
         'nav.services': 'Dienstleistungen',
         'nav.requirements': 'Anforderungen',
         'nav.faq': 'FAQ',
+        'nav.contact': 'Kontakt',
         'nav.joinWaitlist': 'Warteliste',
         
         // Hero
@@ -289,6 +290,7 @@ let translations = {
         'nav.services': 'Services',
         'nav.requirements': 'Exigences',
         'nav.faq': 'FAQ',
+        'nav.contact': 'Contact',
         'nav.joinWaitlist': 'Liste d\'attente',
         
         // Hero
@@ -423,10 +425,15 @@ function updatePageTranslations() {
         const key = element.getAttribute('data-i18n');
         const translation = translate(key);
         
-        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-            element.placeholder = translation;
+        // Only update if we have a translation (even if it's the same as the key)
+        if (translation) {
+            if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                element.placeholder = translation;
+            } else {
+                element.textContent = translation;
+            }
         } else {
-            element.textContent = translation;
+            console.warn(`Missing translation for key: ${key} in language: ${currentLanguage}`);
         }
     });
     
@@ -451,4 +458,4 @@ if (document.readyState === 'loading') {
 }
 
 // Export for use in other modules
-export { translate, setLanguage, getCurrentLanguage, updatePageTranslations };
+export { translate, setLanguage, getCurrentLanguage, updatePageTranslations, translations };

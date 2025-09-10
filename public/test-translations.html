@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; }
+        button { margin: 5px; padding: 10px; cursor: pointer; }
+        .status { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Translation System Test</h1>
+    
+    <div class="test-section">
+        <h2>Current Language</h2>
+        <div id="current-lang" class="status"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Language Switcher</h2>
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('de')">German</button>
+        <button onclick="setLang('fr')">French</button>
+        <button onclick="clearStorage()">Clear Storage (Test Default)</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Elements</h2>
+        <p data-i18n="nav.home">Home</p>
+        <p data-i18n="nav.about">About</p>
+        <p data-i18n="nav.contact">Contact</p>
+        <p data-i18n="hero.title">Hero Title</p>
+    </div>
+    
+    <div class="test-section">
+        <h2>Console Output</h2>
+        <div id="console" class="status"></div>
+    </div>
+    
+    <script type="module">
+        import { setLanguage, getCurrentLanguage, translate } from './translations.js';
+        
+        window.setLang = setLanguage;
+        
+        function updateStatus() {
+            const lang = getCurrentLanguage();
+            document.getElementById('current-lang').innerHTML = `
+                <strong>Current Language:</strong> ${lang}<br>
+                <strong>localStorage:</strong> ${localStorage.getItem('selectedLanguage') || 'null (using default)'}<br>
+                <strong>Test translation:</strong> ${translate('nav.home')}
+            `;
+        }
+        
+        window.clearStorage = function() {
+            localStorage.removeItem('selectedLanguage');
+            location.reload();
+        };
+        
+        // Check for missing translations
+        const keysToCheck = ['nav.home', 'nav.about', 'nav.contact', 'nav.process', 'nav.services'];
+        const languages = ['en', 'de', 'fr'];
+        let missingTranslations = [];
+        
+        import('./translations.js').then(module => {
+            const translations = module.translations;
+            
+            languages.forEach(lang => {
+                keysToCheck.forEach(key => {
+                    if (!translations[lang] || !translations[lang][key]) {
+                        missingTranslations.push(`${lang}: ${key}`);
+                    }
+                });
+            });
+            
+            document.getElementById('console').innerHTML = `
+                <strong>Missing Translations:</strong><br>
+                ${missingTranslations.length ? missingTranslations.join('<br>') : 'None - All translations present!'}
+            `;
+        });
+        
+        // Initial status
+        updateStatus();
+        
+        // Update on language change
+        window.addEventListener('languageChanged', updateStatus);
+    </script>
+</body>
+</html>

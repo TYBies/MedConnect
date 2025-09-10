@@ -99,6 +99,14 @@ function createLanguageSwitcher() {
                 opt.style.color = isNowActive ? 'var(--primary-blue)' : '#333';
                 opt.style.fontWeight = isNowActive ? '600' : '400';
             });
+            
+            // Close mobile menu after language selection (only on mobile)
+            if (window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const navLinks = document.querySelector('.nav-links');
+                    if (navLinks) navLinks.classList.remove('active');
+                }, 400);
+            }
         });
         
         dropdown.appendChild(option);
@@ -107,12 +115,16 @@ function createLanguageSwitcher() {
     // Toggle dropdown
     dropdownBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        e.preventDefault();
         dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
     });
     
     // Close dropdown when clicking outside
-    document.addEventListener('click', () => {
-        dropdown.style.display = 'none';
+    document.addEventListener('click', (e) => {
+        // Don't close if clicking inside the dropdown
+        if (!container.contains(e.target)) {
+            dropdown.style.display = 'none';
+        }
     });
     
     // Hover effects for button

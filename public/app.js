@@ -324,32 +324,30 @@ function showNotification(message, type = 'success') {
 // Mobile menu toggle
 function setupMobileMenu() {
     if (mobileMenu && navLinks) {
-        mobileMenu.addEventListener('click', () => {
+        // Toggle menu when clicking hamburger
+        mobileMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinks.classList.toggle('active');
         });
 
-        // Close menu when clicking a link
+        // Close menu when clicking a navigation link
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-        
-        // Close menu when clicking any button inside nav (including language switcher)
-        navLinks.querySelectorAll('button').forEach(button => {
-            button.addEventListener('click', () => {
-                // Small delay to allow the action to complete
-                setTimeout(() => {
+                // Only close on mobile (when menu is actually open)
+                if (window.innerWidth <= 768) {
                     navLinks.classList.remove('active');
-                }, 300);
+                }
             });
         });
         
-        // Close menu when clicking outside
+        // Close menu when clicking outside (only on mobile)
         document.addEventListener('click', (e) => {
-            // Check if click is outside nav and mobile menu button
-            if (!navLinks.contains(e.target) && !mobileMenu.contains(e.target)) {
-                navLinks.classList.remove('active');
+            // Only handle clicks when mobile menu is active
+            if (window.innerWidth <= 768 && navLinks.classList.contains('active')) {
+                // Check if click is outside nav and mobile menu button
+                if (!navLinks.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    navLinks.classList.remove('active');
+                }
             }
         });
     }
@@ -567,19 +565,8 @@ function initializeLanguageSwitcher() {
 function setupMobileMenuHandlers() {
     if (!navLinks) return;
     
-    // Close menu when clicking any button inside nav (including newly added language switcher)
-    navLinks.querySelectorAll('button').forEach(button => {
-        // Remove existing listeners first to avoid duplicates
-        button.removeEventListener('click', closeMobileMenuWithDelay);
-        button.addEventListener('click', closeMobileMenuWithDelay);
-    });
-}
-
-// Helper function to close mobile menu with delay
-function closeMobileMenuWithDelay() {
-    setTimeout(() => {
-        if (navLinks) navLinks.classList.remove('active');
-    }, 300);
+    // Don't automatically close menu when clicking language switcher
+    // The language switcher handles its own dropdown behavior
 }
 
 // Export functions for testing

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Test</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modern-styles.css">
+    <style>
+        .test-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border: 2px solid #333;
+            padding: 20px;
+            z-index: 10000;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .test-controls button {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #007acc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .viewport-size {
+            background: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+        .menu-state {
+            background: #ffe;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="logo.svg" alt="Healthcare Careers Bridge" class="logo">
+                <span class="logo-title">Healthcare Careers Bridge</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" data-i18n="nav.home">Home</a></li>
+                <li><a href="#about" data-i18n="nav.about">About</a></li>
+                <li><a href="#process" data-i18n="nav.process">Process</a></li>
+                <li><a href="#services" data-i18n="nav.services">Services</a></li>
+                <li><a href="#requirements" data-i18n="nav.requirements">Requirements</a></li>
+                <li><a href="#faq" data-i18n="nav.faq">FAQ</a></li>
+                <li><a href="#contact-us" data-i18n="nav.contact">Contact</a></li>
+                <li><a href="#contact" style="background: var(--primary-blue); color: white; border-radius: 5px;" data-i18n="nav.joinWaitlist">Join Waitlist</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Test content -->
+    <div style="padding: 100px 20px;">
+        <h1>Menu Test Page</h1>
+        <p>Use the controls on the right to test menu behavior</p>
+        
+        <div style="margin: 40px 0;">
+            <h2 data-i18n="hero.title">Test Translation</h2>
+            <p data-i18n="hero.subtitle">Test subtitle translation</p>
+        </div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls">
+        <h3>Test Controls</h3>
+        
+        <div class="viewport-size" id="viewport-info">
+            Width: <span id="viewport-width">0</span>px<br>
+            Mobile: <span id="is-mobile">No</span>
+        </div>
+        
+        <div class="menu-state" id="menu-state">
+            Menu Active: <span id="menu-active">No</span><br>
+            Language: <span id="current-lang">en</span>
+        </div>
+        
+        <button onclick="simulateMobileClick()">Simulate Mobile Menu Click</button>
+        <button onclick="simulateDesktopClick()">Simulate Desktop Click</button>
+        <button onclick="testLanguageSwitch('de')">Switch to German</button>
+        <button onclick="testLanguageSwitch('fr')">Switch to French</button>
+        <button onclick="testLanguageSwitch('en')">Switch to English</button>
+        <button onclick="clearAndReload()">Clear Storage & Reload</button>
+    </div>
+
+    <script type="module">
+        import './app.js';
+        import { setLanguage, getCurrentLanguage } from './translations.js';
+        
+        // Update viewport info
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            document.getElementById('viewport-width').textContent = width;
+            document.getElementById('is-mobile').textContent = width <= 768 ? 'Yes' : 'No';
+        }
+        
+        // Update menu state
+        function updateMenuState() {
+            const navLinks = document.querySelector('.nav-links');
+            const isActive = navLinks?.classList.contains('active');
+            document.getElementById('menu-active').textContent = isActive ? 'Yes' : 'No';
+            document.getElementById('current-lang').textContent = getCurrentLanguage();
+        }
+        
+        // Global functions for buttons
+        window.simulateMobileClick = function() {
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (mobileMenu) {
+                console.log('Simulating mobile menu click');
+                mobileMenu.click();
+                setTimeout(updateMenuState, 100);
+            }
+        };
+        
+        window.simulateDesktopClick = function() {
+            const navLink = document.querySelector('.nav-links a');
+            if (navLink) {
+                console.log('Simulating nav link click');
+                navLink.click();
+                setTimeout(updateMenuState, 100);
+            }
+        };
+        
+        window.testLanguageSwitch = function(lang) {
+            console.log('Switching to', lang);
+            setLanguage(lang);
+            setTimeout(updateMenuState, 100);
+        };
+        
+        window.clearAndReload = function() {
+            localStorage.clear();
+            location.reload();
+        };
+        
+        // Initial update
+        updateViewportInfo();
+        updateMenuState();
+        
+        // Update on resize
+        window.addEventListener('resize', () => {
+            updateViewportInfo();
+            updateMenuState();
+        });
+        
+        // Monitor menu changes
+        const observer = new MutationObserver(updateMenuState);
+        const navLinks = document.querySelector('.nav-links');
+        if (navLinks) {
+            observer.observe(navLinks, { attributes: true, attributeFilter: ['class'] });
+        }
+        
+        // Monitor language changes
+        window.addEventListener('languageChanged', updateMenuState);
+    </script>
+</body>
+</html>
