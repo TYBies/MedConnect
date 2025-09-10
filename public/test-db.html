@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Test</title>
+</head>
+<body>
+    <h1>Testing Supabase Connection</h1>
+    <button id="testBtn">Test Database Connection</button>
+    <div id="result"></div>
+
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+        
+        const supabaseUrl = 'https://rnowzeipdcrgwqwaazcp.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJub3d6ZWlwZGNyZ3dxd2FhemNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc0NTc2ODEsImV4cCI6MjA3MzAzMzY4MX0.fHPGZ0uhHG-nN7DL6V2uVsaOIwTd0P1Pxv2dtIyPfLM';
+        
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            
+            // Test 1: Check if tables exist
+            try {
+                resultDiv.innerHTML = '<p>Testing connection...</p>';
+                
+                // Try to insert a test contact
+                const { data, error } = await supabase
+                    .from('contact_submissions')
+                    .insert([{
+                        name: 'Test User',
+                        email: 'test@example.com',
+                        message: 'This is a test message'
+                    }])
+                    .select();
+                
+                if (error) {
+                    resultDiv.innerHTML = `<p style="color: red;">Error: ${error.message}</p>
+                    <p>This usually means the table doesn't exist. Please run the SQL schema in Supabase.</p>`;
+                } else {
+                    resultDiv.innerHTML = `<p style="color: green;">Success! Data inserted: ${JSON.stringify(data)}</p>`;
+                }
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color: red;">Connection error: ${err.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
