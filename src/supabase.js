@@ -4,15 +4,21 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+// Debug: Log what we're getting from environment
+console.log('Environment check:', {
+    url: supabaseUrl,
+    hasKey: !!supabaseAnonKey,
+    env: import.meta.env
+});
+
 // Check if environment variables are set
 if (!supabaseUrl || !supabaseAnonKey) {
     console.error('Missing Supabase environment variables. Please check your .env.local file.');
+    console.error('Expected: VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY');
+    throw new Error('Supabase configuration missing');
 }
 
-export const supabase = createClient(
-    supabaseUrl || 'placeholder_url',
-    supabaseAnonKey || 'placeholder_key'
-);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Database operations
 export const database = {
@@ -39,6 +45,27 @@ export const database = {
     // Submit nurse application
     async submitNurseApplication(data) {
         try {
+            // First check if email already exists in waitlist
+            const { data: existing, error: checkError } = await supabase
+                .from('nurse_applications')
+                .select('email, created_at')
+                .eq('email', data.email);
+
+            console.log('Checking for existing email:', data.email);
+            console.log('Existing records found:', existing);
+
+            // Check if we have any existing records (array will be empty if none)
+            if (existing && existing.length > 0) {
+                // User already on waitlist
+                console.log('Email already registered!');
+                return { 
+                    success: false, 
+                    error: 'already_registered',
+                    message: 'This email is already registered on our waitlist. We\'ll be in touch soon!' 
+                };
+            }
+
+            // If not exists, proceed with insertion
             const { data: result, error } = await supabase
                 .from('nurse_applications')
                 .insert([{

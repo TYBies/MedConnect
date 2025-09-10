@@ -80,17 +80,35 @@ function setupEventListeners() {
 // Handle waitlist form submission (formerly contact form)
 async function handleContactSubmit(e) {
     e.preventDefault();
+    console.log('Form submitted!');
     
     const formData = new FormData(e.target);
+    
+    // Log form data for debugging
+    console.log('Form fields:');
+    for (let [key, value] of formData.entries()) {
+        console.log(`  ${key}: ${value}`);
+    }
+    
+    // Map experience select value to number
+    const experienceMap = {
+        '0-1': 1,
+        '1-2': 2,
+        '3-5': 4,
+        '5+': 6
+    };
+    
     const data = {
-        fullName: formData.get('full_name'),
+        fullName: formData.get('name'),  // Fixed: HTML has name="name", not name="full_name"
         email: formData.get('email'),
         phone: formData.get('phone'),
         country: formData.get('country'),
         nursingQualification: formData.get('qualification'),
-        yearsExperience: parseInt(formData.get('experience')) || 0,
+        yearsExperience: experienceMap[formData.get('experience')] || 0,
         germanLevel: formData.get('german_level')
     };
+    
+    console.log('Data to submit:', data);
 
     // Show loading state
     const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -100,10 +118,12 @@ async function handleContactSubmit(e) {
 
     try {
         // Use the nurse application endpoint for waitlist submissions
+        console.log('Calling database.submitNurseApplication...');
         const result = await database.submitNurseApplication(data);
+        console.log('Result:', result);
         
         if (result.success) {
-            showNotification('🎉 You\'re on the waitlist! We\'ll contact you soon with next steps.', 'success');
+            // Don't show the sliding notification, just the inline success message
             e.target.reset();
             
             // Show success message in the form area
@@ -111,8 +131,8 @@ async function handleContactSubmit(e) {
             const successMessage = document.createElement('div');
             successMessage.className = 'waitlist-success';
             successMessage.innerHTML = `
-                <h3 style="color: var(--primary-blue); margin-bottom: 1rem;">You're on the list!</h3>
-                <p>Thank you for joining our waitlist. We'll be in touch within 48 hours with more information about your journey to Germany.</p>
+                <h3 style="color: var(--primary-blue); margin-bottom: 1rem;">🎉 You're on the list!</h3>
+                <p>Thank you for joining our waitlist. We'll be in touch soon with more information about your journey to Germany.</p>
                 <p style="margin-top: 1rem;">Check your email for a confirmation message.</p>
             `;
             formContainer.appendChild(successMessage);
@@ -123,6 +143,25 @@ async function handleContactSubmit(e) {
                 e.target.style.display = 'block';
                 successMessage.remove();
             }, 10000);
+        } else if (result.error === 'already_registered') {
+            // Show a friendly message for duplicate registration
+            const formContainer = e.target.parentElement;
+            const alreadyMessage = document.createElement('div');
+            alreadyMessage.className = 'waitlist-success';
+            alreadyMessage.style.borderColor = '#ff9800';
+            alreadyMessage.innerHTML = `
+                <h3 style="color: #ff9800; margin-bottom: 1rem;">Already Registered!</h3>
+                <p>${result.message}</p>
+                <p style="margin-top: 1rem;">If you need to update your information, please contact us directly.</p>
+            `;
+            formContainer.appendChild(alreadyMessage);
+            e.target.style.display = 'none';
+            
+            // Reset form after 7 seconds
+            setTimeout(() => {
+                e.target.style.display = 'block';
+                alreadyMessage.remove();
+            }, 7000);
         } else {
             showNotification('There was an error joining the waitlist. Please try again.', 'error');
         }

@@ -676,6 +676,70 @@ footer {
     }
 }
 
+/* Notifications */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 10000;
+    animation: slideInRight 0.3s ease-out;
+    max-width: 400px;
+}
+
+.notification.error {
+    background: #f44336;
+}
+
+.notification.success {
+    background: #4CAF50;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Loading state for buttons */
+button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    position: relative;
+}
+
+button.loading::after {
+    content: '...';
+    position: absolute;
+    right: 10px;
+    animation: dots 1s infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* Success message in form */
+.waitlist-success {
+    padding: 20px;
+    background: #e8f5e9;
+    border-radius: 8px;
+    border: 2px solid #4CAF50;
+    text-align: center;
+    margin-top: 20px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .nav-links {
